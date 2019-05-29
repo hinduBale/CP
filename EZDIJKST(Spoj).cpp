@@ -6,7 +6,8 @@
 using namespace std;
 
 struct edges{
-    int to, length;
+    int to;
+    int length;
 };
 
 int djikstra(const vector<vector <edges> > &graph, int source, int target)
@@ -44,6 +45,12 @@ int main()
         vector <vector <edges> > graph;
         int v, e;
         cin >> v >> e;
+        vector <edges> init;
+        for(int i = 0; i < v + 1; i++)
+        {
+            init.clear();
+            graph.pb(init);
+        }
         for(int i = 0; i < e; i++)
         {
             int node;
