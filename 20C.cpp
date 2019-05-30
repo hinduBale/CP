@@ -9,11 +9,11 @@
 
 using namespace std;
 
+vector <int> path(100005, 0);
+
 struct edges{
     int to, length;
 };
-
-vector <int> path = {0};
 
 int dijkstra(const vector<vector <edges> > &graph, int source, int target)
 {
@@ -21,7 +21,6 @@ int dijkstra(const vector<vector <edges> > &graph, int source, int target)
     min_distance[source] = 0;
     set <pair <int, int> > active_vertices;
     active_vertices.insert({0, source});
-    vector <int> path;
 
     while(!active_vertices.empty())
     {
@@ -35,8 +34,8 @@ int dijkstra(const vector<vector <edges> > &graph, int source, int target)
             {
                 active_vertices.erase({min_distance[i.to], i.length});
                 min_distance[i.to] = min_distance[where] + i.length;
+                path[i.to] = where;
                 active_vertices.insert({min_distance[i.to], i.to});
-                path[where] = i.to;
             }
         }
     }
@@ -73,9 +72,20 @@ int main()
             cout << -1 << endl;
         else
         {
-            for(int i = 0 ; i < path.size(); i++)
-                cout << path[i] + 1 << " ";
+            int it = v - 1;
+            vector <int> ans;
+            ans.clear();
+            ans.pb(v - 1);
+            while(path[it] != 0)
+            {
+                ans.eb(path[it]);
+                it = path[it];
+            }
+            reverse(ans.begin(), ans.end());
+            cout << 1 <<" ";
+            for(auto i = ans.begin(); i != ans.end(); i++)
+                cout << *i + 1 << " ";
+            cout << endl;
         }
-
     return 0;
 }
