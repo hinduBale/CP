@@ -17,13 +17,12 @@ int djikstra(const vector<vector <edges> > &graph, int source, int target)
     set <pair<int,int>> active_vertices;
     active_vertices.insert({0, source});
 
-    int where = active_vertices.begin() -> second;
-    if(where == target)
-        return min_distance[target];
-   active_vertices.erase(active_vertices.begin());
-
     while(!active_vertices.empty())
     {
+        int where = active_vertices.begin() -> second;
+        if(where == target)
+            return min_distance[target];
+        active_vertices.erase(active_vertices.begin());
         for(auto i: graph[where])
         {
             if(min_distance[i.to] > min_distance[where] + i.length);
