@@ -8,66 +8,56 @@
 
 using namespace std;
 
-vector <vector <int>> graph;
-vector <bool> visited;
-int length [1000] = {-1};
-int parent [1000] = {-1};
-
-void addEdge(int u, int v)
+void addEdge(int u, int v, vector<int> graph [])
 {
     graph[u].pb(v);
     graph[v].pb(u);
 }
 
-void bfsSolve(int u, int d, int e)
-{
-    int flag = 0;
-    queue <int> q;
-    q.push(u);
-    length[u] = 0;
-    parent[u] = 0;
-    visited[u] = true;
-    while(!q.empty())
-    {
-        int f = q.front();
-        q.pop();
-        for(int i = 0; i < graph[f].size(); i++)
-        {
-            int v = graph[f][i];
-            if(!visited[v])
-            {
-                visited[v] = true;
-                length[v] = length[f] + 1;
-                parent[v] = f;
-                q.push(v);
-            }
-        }
-    }
-    for(int i = 0; i < e; i++)
-    {
-        if(parent[i] == u && length[i] == d)
-            ++flag;
-    }
-    cout << flag << endl;
-}
-
 int main()
 {
+    IOS
     int n, e, test, u, v;
     cin >> n >> e;
-    visited.assign(e, false);
-    graph.assign(e, vector<int>());
+    vector <int> graph [n + 1];
     for(int i = 0; i < e; i++)
     {
         cin >> u >> v;
-        addEdge(u, v);
+        addEdge(u, v, graph);
     }
     cin >> test;
     while(test--)
     {
+        vector <bool> visited;
+        visited.assign(e, false);
+        int length [1000] = {-1};
+        int parent [1000] = {-1};
         int s, t;
         cin >> s >> t;
-        bfsSolve(s, t, e);
+        int flag;
+        queue <int> q;
+        q.push(s);
+        visited[s] = true;
+        length[s] = 0;
+        while(!q.empty())
+        {
+            int f = q.front();
+            q.pop();
+            for(int i = 0; i < graph[f].size(); i++)
+            {
+                int v = graph[f][i];
+                if(!visited[v])
+                {
+                    visited[v] = true;
+                    length[v] = length[f] + 1;
+                    if(length[v] == t)
+                        ++flag;
+                    q.push(v);
+                }
+            }
+        }
+        cout << flag << endl;
+        flag = 0;
     }
     return 0;
 }
