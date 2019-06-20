@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #define lli long long int
+#define pii pair<int, int>
 #define pb push_back
 #define mp make_pair
 #define eb emplace_back
@@ -13,6 +14,55 @@
 #define bring_back_deepak_mehta ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
 using namespace std;
+
+int min_edges = 0;
+int arr1[10010], arr2[10010];
+int plot [10010][4];
+pair<int, pii> p[10010];
+
+void initialize(int arr[])
+{
+    for(int i = 0; i < 10010; i++)
+        arr[i] = i;
+}
+
+int root(int x, int arr[])
+{
+    while(x != arr[x])
+    {
+        arr[x] = arr[arr[x]];
+        x = arr[x];
+    }
+    return x;
+}
+
+void union1(int a, int b, int arr[])
+{
+    int root_a = root(a, arr);
+    int root_b = root(b, arr);
+    arr[root_a] = arr[root_b];
+}
+
+void kruskal_modified(pair<int, pii> p[], int c, int nodes, int edges, int arr[], vector <bool> &visited)
+{
+    int y, x, gender;
+    for(int i = 0 ; i < edges; ++i)
+    {
+        gender = p[i].F;
+        x = p[i].S.F;
+        y = p[i].S.S;
+
+        if(gender != c or visited[i] == true)
+            continue;
+        if(root(x, arr) != root(y, arr))
+        {
+            union1(x, y, arr);
+            ++min_edges;
+            ++plot[x][c];
+            ++plot[y][c];
+        }
+    }
+}
 
 void dfs(vector <int> adj[], int u, vector <bool> &visited)
 {
@@ -40,18 +90,20 @@ int main()
     //cin >> test;
     while(test--)
     {
+        initialize(arr1);
+        initialize(arr2);
         vector <int> men[10010];
         vector <int> women[10010];
         vector <bool> visited(10010, false);
-        int a, b, c, nodes, edges, total_edges = 0;
+        int a, b, c, nodes, edges;
         cin >> nodes >> edges;
         int m_s = -1, w_s = -1;
         for(int i = 0; i < edges; i++)
         {
             cin >> a >> b >> c;
+            p[i] = (mp(c, mp(a, b)));
             if(c == 1)
             {
-                ++total_edges;
                 if(m_s == -1)
                     m_s = a;
                 else
@@ -63,7 +115,6 @@ int main()
             }
             else if(c==2)
             {
-                ++total_edges;
                 if(w_s == -1)
                     w_s = a;
                 else
@@ -74,20 +125,47 @@ int main()
             }
             else
             {
-                total_edges += 2;
                 men[a].eb(b);
                 men[b].eb(a);
                 women[a].eb(b);
                 women[b].eb(a);
             }
         }
-        if(isConnected(m_s, nodes, men) == false or isConnected(w_s, nodes, women) == false)
+//        if(isConnected(m_s, nodes, men) == false or isConnected(w_s, nodes, women) == false)
+//        {
+//            cout << "-1" << endl;
+//            return 0;
+//        }
+        sort(p, p + edges);
+        for(int i = 0;i < edges; i++)
         {
-            cout << "-1" << endl;
-            return 0;
+            int u = p[i].S.F;
+            int v = p[i].S.S;
+            int w = p[i].F;
+            if(w == 3 and root(u,arr1)!=root(v,arr1))
+            {
+                union1(u,v,arr1);
+                union1(u,v,arr2);
+                plot[u][3]++;
+                plot[v][3]++;
+                visited[i] = true;
+                min_edges++;
+            }
+         }
+         kruskal_modified(p, 1, nodes, edges, arr1, visited);
+         kruskal_modified(p, 2, nodes, edges, arr2, visited);
+        bool flag = 0;
+        for(int i=1;i<=nodes;i++)
+        {
+            if(plot[i][3] || (plot[i][1] && plot[i][2]))
+                continue;
+            flag = 1;
+            break;
         }
-        int total_edges_in_mst = 2*(nodes - 1);
-        cout << total_edges - total_edges_in_mst << endl;
+        if(flag)
+            cout<<-1;
+        else
+            cout<<edges - min_edges;
     }
     return 0;
 }
