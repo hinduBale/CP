@@ -154,7 +154,7 @@ int main()
          }
          kruskal_modified(p, 1, nodes, edges, arr1, visited);
          kruskal_modified(p, 2, nodes, edges, arr2, visited);
-        bool flag = 0;
+                 bool flag = 0;
         for(int i=1;i<=nodes;i++)
         {
             if(plot[i][3] || (plot[i][1] && plot[i][2]))
@@ -165,7 +165,7 @@ int main()
         if(flag)
             cout<<-1;
         else
-            cout<<edges - min_edges;
+            cout<<edges - min_edges << endl;
     }
     return 0;
 }
