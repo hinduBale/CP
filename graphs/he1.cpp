@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 /*short and int: -32,767 to 32,767
 **unsigned short int and unsigned int: 0 to 65,535
 **long int: -2,147,483,647 to 2,147,483,647
@@ -81,4 +78,3 @@ int main()
     cout <<kruskal(p)<< endl;
     return 0;
 }
->>>>>>> 1e64850eb52422007911c0ad0ce93c61a55f1963
