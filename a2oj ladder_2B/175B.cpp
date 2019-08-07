@@ -6,7 +6,8 @@
 **unsigned long long int: 0 to 18,446,744,073,709,551,615.*/
 
 #include <bits/stdc++.h>
-#define lli unsigned long long int
+#define lli long long int
+#define pii pair<int, int>
 #define pb push_back
 #define mp make_pair
 #define eb emplace_back
@@ -17,21 +18,37 @@
 #define inf INT_MAX
 #define gcd(x,y) __gcd(x,y)
 #define lcm(a,b) (a*(b/gcd(a,b)))
-#define bring_back_deepak_mehta ios_base::sync_with_stdio(false);cin.tie(NULL);
+#define i_am_iron_man ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
 
 using namespace std;
 
+int a[1000146];
+
 int main()
 {
-    bring_back_deepak_mehta
-    int test;
-    cin >> test;
-    while(test--)
+    int n, s, t;
+    cin >> n >> s >> t;
+    s--;
+    t--;
+    for(int i = 0; i < n; i++)
     {
-        vector <float> v = {1, 2, 3 ,4,5 ,6 ,7 ,8 ,9,20,45, 45, 75,853,75};
-        cout << *v.rbegin() << endl;
-        for(int i = 2; i < 3; i++)
-            cout << "Balle Balle" << endl;
+        cin >> a[i];
+        a[i]--;
     }
-    return 0;
+    if(s == t)
+    {
+        cout << "0" << endl;
+        return 0;
+    }
+    int cur = s;
+    int cnt = 0;
+    do
+    {
+        cur = a[cur];
+        cnt++;
+    }while(cur != s && cur != t);
+    if(cur == s)
+        cout << "-1" << endl;
+    else
+        cout << cnt << endl;
 }

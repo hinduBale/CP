@@ -1,0 +1,5 @@
+1) 450B: Modding a negative number gives different answers in different language. For example -1%MOD will give -1 in CPP and 1000000006 in Python. The way to counter this is to MOD every number in this fashion -> ((x%MOD)+MOD)%MOD   {where MOD is 1000000007}.
+2) 454B: Whenever non-decreasing or non-increasing is mentioned, always factor in the case where the array contains identical terms, it's almost always a edge case.
+3) 162B: I dunno why, but for a vector<int> v....... cin>>v[i] doesn't work in my CodeBlocks compiler, although I've seen others using it. Guess I'll have to stick with cin >> input; v.eb(input);
+4) No dynamic memory allocation for vectors -> vector<lli> v(n) -> bad_idea!!
+
